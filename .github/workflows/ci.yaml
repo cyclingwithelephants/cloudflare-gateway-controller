@@ -43,6 +43,12 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
 
+      - name: set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: set up socker buildx
+        uses: docker/setup-buildx-action@v3
+
       - name: log in to the Container registry
         uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567
         with:
@@ -78,9 +84,7 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v4
-
-      - run: make manifests
-
+      - run: make build-installer
       - name: check for diff
         run: |
             if ! git diff --quiet; then
