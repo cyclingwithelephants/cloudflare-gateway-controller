@@ -3,9 +3,12 @@ name: ci
 on:
   push:
     branches: [ "main" ]
+    paths-ignore:
+      - '**/*.md'
   pull_request:
     branches: [ "main" ]
-
+    paths-ignore:
+      - '**/*.md'
 jobs:
   go:
     runs-on: ubuntu-latest
@@ -59,6 +62,12 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v4
+
+      - name: setup kind cluster
+        uses: helm/kind-action@v1.10.0
+        with:
+          cluster_name: kind
+
       - name: e2e
         run: |
           make test-e2e
