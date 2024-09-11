@@ -66,6 +66,7 @@ jobs:
       - name: setup kind cluster
         uses: helm/kind-action@v1.10.0
         wait: 120s
+        log_level: debug
 
       - name: e2e
         run: |
