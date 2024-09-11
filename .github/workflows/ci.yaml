@@ -66,15 +66,7 @@ jobs:
       - name: setup kind cluster
         uses: helm/kind-action@v1.10.0
         with:
-          verbosity: 1000000000
-
-      - name: debug
-        run: |
-          sleep 30
-          kubectl get nodes
-          kubectl describe node
-          kubectl get pods -A
-          kubectl config current-context
+          cluster_name: kind
 
       - name: e2e
         run: |
