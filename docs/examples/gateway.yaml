@@ -1,0 +1,22 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: test
+spec:
+  gatewayClassName: "test"
+  # at least one listener must be specified
+  listeners:
+    - name: tcp
+      port: 2000
+      protocol: TCP
+#      hostname: a.example.com
+#      by not specifying the hostname, the gatewayclass domain is used, prepended with a wildcard
+#      e.g. example.com becomes *.example.com
+#    - name: UDP
+#      port:
+#      protocol: UDP
+#  #      hostname: a.example.com
+#  #      by not specifying the hostname, the gatewayclass domain is used, prepended with a wildcard
+#  #      e.g. example.com becomes *.example.com
+
+  addresses: []

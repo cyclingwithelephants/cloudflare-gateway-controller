@@ -1,0 +1,40 @@
+name: ci
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  go:
+    runs-on: ubuntu-latest
+    permissions:
+      # Required: allow read access to the content for analysis.
+      contents: read
+      # Optional: allow read access to pull request. Use with `only-new-issues` option.
+      pull-requests: read
+      # Optional: allow write access to checks to allow the action to annotate code in the PR.
+      checks: write
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: read go version from go.mod
+        run: |
+          # prints the go version for use in this pipeline
+          echo "GO_VERSION=$(awk 'NR==3 {print $2}' go.mod)" >> $GITHUB_ENV
+
+      - name: setup Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ env.GO_VERSION }}
+
+      - name: build
+        run: go build -v cmd/main.go
+
+      - name: unit test
+        run: go test ./internal/...
+
+      - name: Golangci-lint
+        uses: golangci/golangci-lint-action@v6.1.0
