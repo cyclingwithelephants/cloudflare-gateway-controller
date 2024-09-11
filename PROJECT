@@ -5,8 +5,8 @@
 domain: adamland.xyz
 layout:
 - go.kubebuilder.io/v4
-projectName: cloudflare-gateway-operator
-repo: github.com/cyclingwithelephants/cloudflare-gateway-operator
+projectName: cloudflare-gateway-controller
+repo: github.com/cyclingwithelephants/cloudflare-gateway-controller
 resources:
 - controller: true
   group: gateway.networking.k8s.io

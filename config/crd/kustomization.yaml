@@ -1,0 +1,3 @@
+resources:
+  # standard release channel for crds
+  - https://github.com/kubernetes-sigs/gateway-api/config/crd/?ref=main

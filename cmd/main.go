@@ -5,10 +5,10 @@ import (
 	"flag"
 	"os"
 
-	"github.com/cyclingwithelephants/cloudflare-gateway-operator/internal/controller/http_route"
+	"github.com/cyclingwithelephants/cloudflare-gateway-controller/internal/controller/http_route"
 
-	"github.com/cyclingwithelephants/cloudflare-gateway-operator/internal/controller/gateway"
-	"github.com/cyclingwithelephants/cloudflare-gateway-operator/internal/controller/gateway_class"
+	"github.com/cyclingwithelephants/cloudflare-gateway-controller/internal/controller/gateway"
+	"github.com/cyclingwithelephants/cloudflare-gateway-controller/internal/controller/gateway_class"
 
 	// Import all Kubernetes client auth plugins (e.g. Azure, GCP, OIDC, etc.)
 	// to ensure that exec-entrypoint and run can make use of them.

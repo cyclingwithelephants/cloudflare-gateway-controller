@@ -1,4 +1,4 @@
-module github.com/cyclingwithelephants/cloudflare-gateway-operator
+module github.com/cyclingwithelephants/cloudflare-gateway-controller
 
 go 1.22.0
 

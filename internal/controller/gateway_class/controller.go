@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/cyclingwithelephants/cloudflare-gateway-operator/internal/controller"
+	"github.com/cyclingwithelephants/cloudflare-gateway-controller/internal/controller"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	corev1 "k8s.io/api/core/v1"
