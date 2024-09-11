@@ -84,7 +84,9 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v4
-      - run: make build-installer
+
+      - run: make manifests
+
       - name: check for diff
         run: |
             if ! git diff --quiet; then
