@@ -30,11 +30,30 @@ jobs:
         with:
           go-version: ${{ env.GO_VERSION }}
 
-      - name: build
-        run: go build -v cmd/main.go
-
       - name: unit test
         run: go test ./internal/...
 
       - name: Golangci-lint
         uses: golangci/golangci-lint-action@v6.1.0
+
+  container:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+#      - name: Log in to the Container registry
+#        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+#        with:
+#          registry: https://ghcr.io
+#          username: ${{ github.actor }}
+#          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        with:
+          context: .
+          push: true
+          tags: ghcr.io/cyclingwithelephants/cloudflare-gateway-controller:latest
