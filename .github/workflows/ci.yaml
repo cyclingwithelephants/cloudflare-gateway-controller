@@ -70,9 +70,11 @@ jobs:
 
       - name: debug
         run: |
+          sleep 30
           kubectl get nodes
           kubectl describe node
           kubectl get pods -A
+          kubectl config current-context
 
       - name: e2e
         run: |
