@@ -44,9 +44,11 @@ jobs:
         uses: actions/checkout@v4
 
       - name: set up QEMU
+        if: ${{ github.ref == 'refs/heads/main' }}
         uses: docker/setup-qemu-action@v3
 
       - name: set up socker buildx
+        if: ${{ github.ref == 'refs/heads/main' }}
         uses: docker/setup-buildx-action@v3
 
       - name: log in to the Container registry
@@ -62,7 +64,7 @@ jobs:
           context: .
           push: ${{ github.ref == 'refs/heads/main' }}
           tags: ghcr.io/cyclingwithelephants/cloudflare-gateway-controller:latest
-          platforms: linux/amd64,linux/arm64
+          platforms: ${{ github.ref == 'refs/heads/main' && 'linux/amd64,linux/arm64' }}
 
   e2e:
     runs-on: ubuntu-latest
