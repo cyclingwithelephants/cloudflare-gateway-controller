@@ -7,9 +7,9 @@ import (
 	"time"
 
 	"github.com/cloudflare/cloudflare-go"
-	"github.com/cyclingwithelephants/cloudflare-gateway-operator/internal/clients/cf"
-	k8s2 "github.com/cyclingwithelephants/cloudflare-gateway-operator/internal/clients/k8s"
-	"github.com/cyclingwithelephants/cloudflare-gateway-operator/internal/controller"
+	"github.com/cyclingwithelephants/cloudflare-gateway-controller/internal/clients/cf"
+	k8s2 "github.com/cyclingwithelephants/cloudflare-gateway-controller/internal/clients/k8s"
+	"github.com/cyclingwithelephants/cloudflare-gateway-controller/internal/controller"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	appsv1 "k8s.io/api/apps/v1"

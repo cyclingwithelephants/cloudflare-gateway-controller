@@ -8,17 +8,17 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 
-	"github.com/cyclingwithelephants/cloudflare-gateway-operator/test/utils"
+	"github.com/cyclingwithelephants/cloudflare-gateway-controller/test/utils"
 )
 
-const namespace = "cloudflare-gateway-operator-system"
+const namespace = "cloudflare-gateway-controller-system"
 
 var _ = Describe("controller", Ordered, func() {
 	BeforeAll(func() {
 		By("installing prometheus operator")
 		Expect(utils.InstallPrometheusOperator()).To(Succeed())
 
-		By("installing the cert-manager")
+		By("installing cert-manager")
 		Expect(utils.InstallCertManager()).To(Succeed())
 
 		By("creating manager namespace")
@@ -27,10 +27,10 @@ var _ = Describe("controller", Ordered, func() {
 	})
 
 	AfterAll(func() {
-		By("uninstalling the Prometheus manager bundle")
+		By("uninstalling prometheus manager bundle")
 		utils.UninstallPrometheusOperator()
 
-		By("uninstalling the cert-manager bundle")
+		By("uninstalling cert-manager bundle")
 		utils.UninstallCertManager()
 
 		By("removing manager namespace")
@@ -44,14 +44,14 @@ var _ = Describe("controller", Ordered, func() {
 			var err error
 
 			// projectimage stores the name of the image used in the example
-			var projectimage = "example.com/cloudflare-gateway-operator:v0.0.1"
+			var projectimage = "example.com/cloudflare-gateway-controller:v0.0.1"
 
 			By("building the manager(Operator) image")
 			cmd := exec.Command("make", "docker-build", fmt.Sprintf("IMG=%s", projectimage))
 			_, err = utils.Run(cmd)
 			ExpectWithOffset(1, err).NotTo(HaveOccurred())
 
-			By("loading the the manager(Operator) image on Kind")
+			By("loading the manager(Operator) image on Kind")
 			err = utils.LoadImageToKindClusterWithName(projectimage)
 			ExpectWithOffset(1, err).NotTo(HaveOccurred())
 

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"sort"
 
-	"github.com/cyclingwithelephants/cloudflare-gateway-operator/internal/clients/k8s"
+	"github.com/cyclingwithelephants/cloudflare-gateway-controller/internal/clients/k8s"
 	"github.com/pkg/errors"
 )
 
