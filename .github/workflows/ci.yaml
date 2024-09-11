@@ -59,6 +59,10 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v4
+
+      - name: setup kind cluster
+        uses: helm/kind-action@v1.10.0
+
       - name: e2e
         run: |
           make test-e2e
