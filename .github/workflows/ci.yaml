@@ -47,7 +47,7 @@ jobs:
         if: ${{ github.ref == 'refs/heads/main' }}
         uses: docker/setup-qemu-action@v3
 
-      - name: set up socker buildx
+      - name: set up docker buildx
         if: ${{ github.ref == 'refs/heads/main' }}
         uses: docker/setup-buildx-action@v3
 
