@@ -47,21 +47,9 @@ help: ## Display this help.
 manifests: controller-gen ## Generate WebhookConfiguration, ClusterRole and CustomResourceDefinition objects.
 	$(CONTROLLER_GEN) rbac:roleName=manager-role crd webhook paths="./..." output:crd:artifacts:config=config/crd/bases
 
-.PHONY: generate
-generate: controller-gen ## Generate code containing DeepCopy, DeepCopyInto, and DeepCopyObject method implementations.
-	$(CONTROLLER_GEN) object paths="./..."
-
-.PHONY: fmt
-fmt: ## Run go fmt against code.
-	go fmt ./...
-
-.PHONY: vet
-vet: ## Run go vet against code.
-	go vet ./...
-
 .PHONY: test
-test: manifests generate fmt vet envtest ## Run tests.
-	KUBEBUILDER_ASSETS="$(shell $(ENVTEST) use $(ENVTEST_K8S_VERSION) --bin-dir $(LOCALBIN) -p path)" go test $$(go list ./... | grep -v /e2e) -coverprofile cover.out
+test: ## Run tests.
+	go test $$(go list ./... | grep -v /e2e) -coverprofile cover.out
 
 # Utilize Kind or modify the e2e tests to load the image locally, enabling compatibility with other vendors.
 .PHONY: test-e2e  # Run the e2e tests against a Kind k8s instance that is spun up.
@@ -93,10 +81,6 @@ run: manifests generate fmt vet ## Run a controller from your host.
 docker-build: ## Build docker image with the manager.
 	$(CONTAINER_TOOL) build -t ${IMG} .
 
-.PHONY: docker-push
-docker-push: ## Push docker image with the manager.
-	$(CONTAINER_TOOL) push ${IMG}
-
 # PLATFORMS defines the target platforms for the manager image be built to provide support to multiple
 # architectures. (i.e. make docker-buildx IMG=myregistry/mypoperator:0.0.1). To use this option you need to:
 # - be able to use docker buildx. More info: https://docs.docker.com/build/buildx/
@@ -115,7 +99,7 @@ docker-buildx: ## Build and push docker image for the manager for cross-platform
 	rm Dockerfile.cross
 
 .PHONY: build-installer
-build-installer: manifests generate kustomize ## Generate a consolidated YAML with CRDs and deployment.
+build-installer: manifests kustomize ## Generate a consolidated YAML with CRDs and deployment.
 	mkdir -p dist
 	cd config/manager && $(KUSTOMIZE) edit set image controller=${IMG}
 	$(KUSTOMIZE) build config/default > dist/install.yaml
