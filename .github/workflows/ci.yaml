@@ -47,8 +47,8 @@ jobs:
         if: ${{ github.ref == 'refs/heads/main' }}
         uses: docker/setup-qemu-action@v3
 
+        # needed for build caching
       - name: set up docker buildx
-        if: ${{ github.ref == 'refs/heads/main' }}
         uses: docker/setup-buildx-action@v3
 
       - name: log in to the Container registry
@@ -65,6 +65,8 @@ jobs:
           push: ${{ github.ref == 'refs/heads/main' }}
           tags: ghcr.io/cyclingwithelephants/cloudflare-gateway-controller:latest
           platforms: ${{ github.ref == 'refs/heads/main' && 'linux/amd64,linux/arm64' || '' }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
   e2e:
     runs-on: ubuntu-latest
