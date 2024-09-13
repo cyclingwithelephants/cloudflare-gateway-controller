@@ -53,8 +53,9 @@ jobs:
       - name: unit test
         run: make test
 
-      - name: lint
-        run: make lint
+      - name: Golangci-lint
+        uses: golangci/golangci-lint-action@v6.1.0
+
 
   container:
     runs-on: ubuntu-latest
