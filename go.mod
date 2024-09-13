@@ -1,6 +1,6 @@
 module github.com/cyclingwithelephants/cloudflare-gateway-controller
 
-go 1.22.0
+go 1.23.1
 
 require (
 	github.com/cloudflare/cloudflare-go v0.103.0
