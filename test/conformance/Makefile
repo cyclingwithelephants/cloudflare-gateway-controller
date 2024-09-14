@@ -1,5 +1,5 @@
 GATEWAY_CLASS = cloudflare-gateway-operator
-SUPPORTED_FEATURES = HTTPRoute,GatewayClass
+SUPPORTED_FEATURES = Gateway,HTTPRoute
 KIND_KUBE_CONFIG=$${HOME}/.kube/kind/config
 
 .PHONY: build-test-runner
@@ -18,18 +18,18 @@ create-kind-cluster:
 	kind export kubeconfig --name conformance --kubeconfig $(KIND_KUBE_CONFIG)
 
 deploy-app:
-	kubectl apply -k ../../config/manager
-	kubectl apply \
-		-k ../../config/default/ \
-		-k ../../config/network-policy \
-		-k ../../config/rbac
+	kustomize build ../../config/manager | kubectl apply -f -
+	kustomize build ../../config/crd | kubectl apply -f -
+	kustomize build ../../config/default | kubectl apply -f -
+	kustomize build ../../config/network-policy | kubectl apply -f -
+	kustomize build ../../config/rbac | kubectl apply -f -
 
-delete-app:
-	kubectl delete \
-		-k ../../config/default/ \
-		-k ../../config/network-policy \
-		-k ../../config/rbac
-	kubectl delete -k ../../config/manager
+#delete-app:
+#	kustomize build ../../config/manager | kubectl delete -f -
+#	kustomize build ../../config/crd | kubectl delete -f -
+#	kustomize build ../../config/default | kubectl delete -f -/
+#	kustomize build ../../config/network-policy | kubectl delete -f -
+#	kustomize build ../../config/rbac | kubectl delete -f -
 
 .PHONY: run-conformance-tests
 run-conformance-tests:
