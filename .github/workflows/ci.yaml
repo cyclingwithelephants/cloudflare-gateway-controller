@@ -126,7 +126,7 @@ jobs:
   conformance:
     runs-on: ubuntu-latest
     env:
-      WORKING_DIRECTORY: ./conformance
+      WORKING_DIRECTORY: test/conformance
     steps:
       - name: checkout
         uses: actions/checkout@v4
