@@ -32,13 +32,16 @@ delete-app:
 	kubectl delete -k ../../config/manager
 
 .PHONY: run-conformance-tests
-run-conformance-tests: create-kind-cluster build-app build-test-runner deploy-app
+run-conformance-tests:
 	kubectl apply -f conformance-rbac.yaml
 	kubectl run -i conformance \
 		--image=conformance-test-runner:latest --image-pull-policy=Never \
 		--overrides='{ "spec": { "serviceAccountName": "conformance" }  }' \
 		--restart=Never -- go test -v ./conformance -args --gateway-class=$(GATEWAY_CLASS) --debug \
 						        --supported-features=$(SUPPORTED_FEATURES)
+
+.PHONY: everything
+everything: create-kind-cluster build-app build-test-runner deploy-app run-conformance-tests
 
 cleanup:
 	kind delete cluster --name conformance
