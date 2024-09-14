@@ -98,9 +98,10 @@ func (r *Reconciler) accept(ctx context.Context, gatewayClass *gatewayv1.Gateway
 	return nil
 }
 
-// +kubebuilder:rbac:groups=gateway.networking.k8s.io.adamland.xyz,resources=gatewayclasses,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=gateway.networking.k8s.io.adamland.xyz,resources=gatewayclasses/status,verbs=get;update;patch
-// +kubebuilder:rbac:groups=gateway.networking.k8s.io.adamland.xyz,resources=gatewayclasses/finalizers,verbs=update
+// +kubebuilder:rbac:groups=gateway.networking.k8s.io,resources=gatewayclasses,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=gateway.networking.k8s.io,resources=gatewayclasses/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=gateway.networking.k8s.io,resources=gatewayclasses/finalizers,verbs=update
+// +kubebuilder:rbac:groups="",resources=secret,verbs=get;list
 
 // Reconcile is part of the main kubernetes reconciliation loop which aims to
 // move the current state of the cluster closer to the desired state.

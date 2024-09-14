@@ -225,9 +225,12 @@ func (r *Reconciler) createInitialConfigMapIfNotExists(ctx context.Context) erro
 	return nil
 }
 
-// +kubebuilder:rbac:groups=gateway.networking.k8s.io.adamland.xyz,resources=gateways,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=gateway.networking.k8s.io.adamland.xyz,resources=gateways/status,verbs=get;update;patch
-// +kubebuilder:rbac:groups=gateway.networking.k8s.io.adamland.xyz,resources=gateways/finalizers,verbs=update
+// +kubebuilder:rbac:groups=gateway.networking.k8s.io,resources=gateways,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=gateway.networking.k8s.io,resources=gateways/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=gateway.networking.k8s.io,resources=gateways/finalizers,verbs=update
+// +kubebuilder:rbac:groups=apps,resources=deployment,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups="",resources=configmap,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups="",resources=secret,verbs=create;list;delete
 
 // Reconcile is part of the main kubernetes reconciliation loop which aims to
 // move the current state of the cluster closer to the desired state.

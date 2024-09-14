@@ -34,6 +34,7 @@ deploy-secret:
 
 .PHONY: run-conformance-tests
 run-conformance-tests:
+	kubectl delete pod conformance --ignore-not-found
 	kubectl apply -f conformance-rbac.yaml
 	kubectl run -i conformance \
 		--image=conformance-test-runner:latest --image-pull-policy=Never \
