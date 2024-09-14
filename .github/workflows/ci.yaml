@@ -140,22 +140,22 @@ jobs:
           cluster_name: conformance
 
       - name: build app
-        working-dir: ${{ env.WORKING_DIRECTORY}}
+        working-directory: ${{ env.WORKING_DIRECTORY}}
         run: |
           make build-app
 
       - name: build test runner
-        working-dir: ${{ env.WORKING_DIRECTORY}}
+        working-directory: ${{ env.WORKING_DIRECTORY}}
         run: |
           make build-test-runner
 
       - name: deploy app
-        working-dir: ${{ env.WORKING_DIRECTORY}}
+        working-directory: ${{ env.WORKING_DIRECTORY}}
         run: |
           make deploy-app
 
       - name: Run conformance tests
-        working-dir: ${{ env.WORKING_DIRECTORY}}
+        working-directory: ${{ env.WORKING_DIRECTORY}}
         continue-on-error: true
         run: |
           make run-conformance-tests
