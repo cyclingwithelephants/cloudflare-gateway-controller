@@ -1,6 +1,3 @@
-SUPPORTED_FEATURES = Gateway,HTTPRoute
-KIND_KUBE_CONFIG=$${HOME}/.kube/kind/config
-
 .PHONY: build-test-runner
 build-test-runner:
 	docker build -t conformance-test-runner:latest . &&\
@@ -8,22 +5,24 @@ build-test-runner:
 
 .PHONY: build-app
 build-app:
-	docker build -t ghcr.io/cyclingwithelephants/cloudflare-gateway-controller:latest -f ../../Dockerfile ../.. &&\
-	kind load docker-image --name conformance ghcr.io/cyclingwithelephants/cloudflare-gateway-controller:latest
+	docker build -t cloudflare-gateway-operator:latest -f ../../Dockerfile ../.. &&\
+	kind load docker-image --name conformance cloudflare-gateway-operator:latest
 
 .PHONY: create-kind-cluster
 create-kind-cluster:
 	kind create cluster --name conformance
-	kind export kubeconfig --name conformance --kubeconfig $(KIND_KUBE_CONFIG)
+	#kind export kubeconfig --name conformance --kubeconfig $(KIND_KUBE_CONFIG)
 
 deploy-app:
-	kustomize build ../../config | kubectl apply -f -
+	kustomize build deploy | kubectl apply -f -
 
-deploy-gateway-class:
-	kubectl apply -f gateway_class.yaml
+re-deploy-app: build-app deploy-app
 
 deploy-secret:
-	kubectl apply -f ../../secrets/secret.yaml
+	kubectl apply -f ../../secrets/secret.yaml -n cloudflare-gateway-operator-system
+
+deploy-gateway-class:
+	kubectl apply -f gateway-class.yaml
 
 #delete-app:
 #	kustomize build ../../config/manager | kubectl delete -f -
@@ -42,10 +41,10 @@ run-conformance-tests:
 		--restart=Never -- go test -v ./conformance -args \
 			--gateway-class=conformance-test \
 			--debug \
-			--supported-features=$(SUPPORTED_FEATURES)
+			--supported-features="Gateway,HTTPRoute"
 
 .PHONY: everything
-everything: create-kind-cluster build-app build-test-runner deploy-app deploy-gateway-class deploy-secret run-conformance-tests
+everything: create-kind-cluster build-app build-test-runner deploy-app deploy-secret deploy-gateway-class run-conformance-tests
 
 cleanup:
 	kind delete cluster --name conformance

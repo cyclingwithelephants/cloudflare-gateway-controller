@@ -3,6 +3,7 @@ package gateway_class
 import (
 	"context"
 	"fmt"
+	"os"
 	"time"
 
 	"github.com/cyclingwithelephants/cloudflare-gateway-controller/internal/controller"
@@ -27,11 +28,16 @@ type Reconciler struct {
 }
 
 func (r *Reconciler) validate(ctx context.Context, gatewayClass *gatewayv1.GatewayClass) error {
+	namespace := os.Getenv("POD_NAMESPACE")
+	if namespace == "" {
+		return errors.New("POD_NAMESPACE environment variable not set")
+	}
+
 	if gatewayClass == nil {
 		return errors.New("nil GatewayClass")
 	}
 	secretObjectKey := client.ObjectKey{
-		Namespace: "default",
+		Namespace: namespace,
 		Name:      gatewayClass.Spec.ParametersRef.Name,
 	}
 	secret := &corev1.Secret{}
@@ -101,7 +107,7 @@ func (r *Reconciler) accept(ctx context.Context, gatewayClass *gatewayv1.Gateway
 // +kubebuilder:rbac:groups=gateway.networking.k8s.io,resources=gatewayclasses,verbs=get;list;watch;create;update;patch;delete
 // +kubebuilder:rbac:groups=gateway.networking.k8s.io,resources=gatewayclasses/status,verbs=get;update;patch
 // +kubebuilder:rbac:groups=gateway.networking.k8s.io,resources=gatewayclasses/finalizers,verbs=update
-// +kubebuilder:rbac:groups="",resources=secret,verbs=get;list
+// +kubebuilder:rbac:groups="",resources=secrets,verbs=get;list;watch
 
 // Reconcile is part of the main kubernetes reconciliation loop which aims to
 // move the current state of the cluster closer to the desired state.

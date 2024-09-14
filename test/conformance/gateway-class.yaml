@@ -3,7 +3,7 @@ kind: GatewayClass
 metadata:
   name: conformance-test
 spec:
-  controllerName: "adamland.xyz/cf-tunnel-controller"
+  controllerName: "adamland.xyz/cloudflare-gateway-operator"
   parametersRef:
     group: ""
     kind: Secret

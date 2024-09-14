@@ -7,7 +7,7 @@ rules:
 - apiGroups:
   - ""
   resources:
-  - configmap
+  - configmaps
   verbs:
   - create
   - delete
@@ -17,9 +17,19 @@ rules:
   - update
   - watch
 - apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - watch
+- apiGroups:
   - apps
   resources:
-  - deployment
+  - deployments
   verbs:
   - create
   - delete
@@ -31,6 +41,7 @@ rules:
 - apiGroups:
   - gateway.networking.k8s.io
   resources:
+  - gatewayclasses
   - gateways
   - httproutes
   verbs:
@@ -44,6 +55,7 @@ rules:
 - apiGroups:
   - gateway.networking.k8s.io
   resources:
+  - gatewayclasses/finalizers
   - gateways/finalizers
   - httproutes/finalizers
   verbs:
@@ -51,6 +63,7 @@ rules:
 - apiGroups:
   - gateway.networking.k8s.io
   resources:
+  - gatewayclasses/status
   - gateways/status
   - httproutes/status
   verbs:
