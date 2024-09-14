@@ -32,9 +32,9 @@ var _ = Describe("controller", Ordered, func() {
 		By("uninstalling cert-manager bundle")
 		UninstallCertManager()
 
-		//By("removing manager namespace")
-		//cmd := exec.Command("kubectl", "delete", "ns", namespace)
-		//_, _ = Run(cmd)
+		// By("removing manager namespace")
+		// cmd := exec.Command("kubectl", "delete", "ns", namespace)
+		// _, _ = Run(cmd)
 	})
 
 	Context("Operator", func() {
