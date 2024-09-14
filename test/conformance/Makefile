@@ -5,8 +5,8 @@ build-test-runner:
 
 .PHONY: build-app
 build-app:
-	docker build -t cloudflare-gateway-operator:latest -f ../../Dockerfile ../.. &&\
-	kind load docker-image --name conformance cloudflare-gateway-operator:latest
+	docker build -t cloudflare-gateway-controller:latest -f ../../Dockerfile ../.. &&\
+	kind load docker-image --name conformance cloudflare-gateway-controller:latest
 
 .PHONY: create-kind-cluster
 create-kind-cluster:
@@ -14,12 +14,12 @@ create-kind-cluster:
 	#kind export kubeconfig --name conformance --kubeconfig $(KIND_KUBE_CONFIG)
 
 deploy-app:
-	kustomize build deploy | kubectl apply -f -
+	kustomize build ../../deploy/for-testing | kubectl apply -f -
 
 re-deploy-app: build-app deploy-app
 
 deploy-secret:
-	kubectl apply -f ../../secrets/secret.yaml -n cloudflare-gateway-operator-system
+	kubectl apply -f ../../secrets/secret.yaml -n cloudflare-gateway-controller-system
 
 deploy-gateway-class:
 	kubectl apply -f gateway-class.yaml

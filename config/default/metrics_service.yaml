@@ -3,7 +3,7 @@ kind: Service
 metadata:
   labels:
     control-plane: controller
-    app.kubernetes.io/name: cloudflare-gateway-operator
+    app.kubernetes.io/name: cloudflare-gateway-controller
     app.kubernetes.io/managed-by: kustomize
   name: metrics-service
   namespace: system

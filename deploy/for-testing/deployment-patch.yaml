@@ -2,11 +2,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: controller
-  namespace: cloudflare-gateway-operator-system
+  namespace: cloudflare-gateway-controller-system
 spec:
   template:
     spec:
       containers:
         - name: controller
           imagePullPolicy: Never
-          image: cloudflare-gateway-operator:latest
+          image: cloudflare-gateway-controller:latest

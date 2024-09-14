@@ -9,4 +9,4 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: controller
-  namespace: cloudflare-gateway-operator-system
+  namespace: cloudflare-gateway-controller-system

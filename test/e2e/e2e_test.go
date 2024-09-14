@@ -10,6 +10,7 @@ import (
 )
 
 const namespace = "cloudflare-gateway-controller-system"
+const projectimage = "cloudflare-gateway-controller:latest"
 
 var _ = Describe("controller", Ordered, func() {
 	BeforeAll(func() {
@@ -31,18 +32,15 @@ var _ = Describe("controller", Ordered, func() {
 		By("uninstalling cert-manager bundle")
 		UninstallCertManager()
 
-		By("removing manager namespace")
-		cmd := exec.Command("kubectl", "delete", "ns", namespace)
-		_, _ = Run(cmd)
+		//By("removing manager namespace")
+		//cmd := exec.Command("kubectl", "delete", "ns", namespace)
+		//_, _ = Run(cmd)
 	})
 
 	Context("Operator", func() {
 		It("should run successfully", func() {
 			var controllerPodName string
 			var err error
-
-			// projectimage stores the name of the image used in the example
-			var projectimage = "example.com/cloudflare-gateway-controller:v0.0.1"
 
 			By("building the manager(Operator) image")
 			cmd := exec.Command("make", "docker-build", fmt.Sprintf("IMG=%s", projectimage))
@@ -59,7 +57,7 @@ var _ = Describe("controller", Ordered, func() {
 			ExpectWithOffset(1, err).NotTo(HaveOccurred())
 
 			By("deploying the controller-manager")
-			cmd = exec.Command("make", "deploy", fmt.Sprintf("IMG=%s", projectimage))
+			cmd = exec.Command("make", "deploy")
 			_, err = Run(cmd)
 			ExpectWithOffset(1, err).NotTo(HaveOccurred())
 
@@ -67,13 +65,13 @@ var _ = Describe("controller", Ordered, func() {
 			verifyControllerUp := func() error {
 				// Get pod name
 
-				cmd = exec.Command("kubectl", "get",
-					"pods", "-l", "control-plane=controller-manager",
+				cmd = exec.Command("kubectl", "get", "pods",
+					"-l", "control-plane=controller",
+					"-n", namespace,
 					"-o", "go-template={{ range .items }}"+
 						"{{ if not .metadata.deletionTimestamp }}"+
 						"{{ .metadata.name }}"+
 						"{{ \"\\n\" }}{{ end }}{{ end }}",
-					"-n", namespace,
 				)
 
 				podOutput, err := Run(cmd)
@@ -83,11 +81,11 @@ var _ = Describe("controller", Ordered, func() {
 					return fmt.Errorf("expect 1 controller pods running, but got %d", len(podNames))
 				}
 				controllerPodName = podNames[0]
-				ExpectWithOffset(2, controllerPodName).Should(ContainSubstring("controller-manager"))
+				ExpectWithOffset(2, controllerPodName).Should(ContainSubstring("controller"))
 
 				// Validate pod status
-				cmd = exec.Command("kubectl", "get",
-					"pods", controllerPodName, "-o", "jsonpath={.status.phase}",
+				cmd = exec.Command("kubectl", "get", "pods", controllerPodName,
+					"-o", "jsonpath={.status.phase}",
 					"-n", namespace,
 				)
 				status, err := Run(cmd)
