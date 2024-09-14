@@ -1,4 +1,3 @@
-GATEWAY_CLASS = cloudflare-gateway-operator
 SUPPORTED_FEATURES = Gateway,HTTPRoute
 KIND_KUBE_CONFIG=$${HOME}/.kube/kind/config
 
@@ -18,11 +17,13 @@ create-kind-cluster:
 	kind export kubeconfig --name conformance --kubeconfig $(KIND_KUBE_CONFIG)
 
 deploy-app:
-	kustomize build ../../config/manager | kubectl apply -f -
-	kustomize build ../../config/crd | kubectl apply -f -
-	kustomize build ../../config/default | kubectl apply -f -
-	kustomize build ../../config/network-policy | kubectl apply -f -
-	kustomize build ../../config/rbac | kubectl apply -f -
+	kustomize build ../../config | kubectl apply -f -
+
+deploy-gateway-class:
+	kubectl apply -f gateway_class.yaml
+
+deploy-secret:
+	kubectl apply -f ../../secrets/secret.yaml
 
 #delete-app:
 #	kustomize build ../../config/manager | kubectl delete -f -
@@ -37,11 +38,13 @@ run-conformance-tests:
 	kubectl run -i conformance \
 		--image=conformance-test-runner:latest --image-pull-policy=Never \
 		--overrides='{ "spec": { "serviceAccountName": "conformance" }  }' \
-		--restart=Never -- go test -v ./conformance -args --gateway-class=$(GATEWAY_CLASS) --debug \
-						        --supported-features=$(SUPPORTED_FEATURES)
+		--restart=Never -- go test -v ./conformance -args \
+			--gateway-class=conformance-test \
+			--debug \
+			--supported-features=$(SUPPORTED_FEATURES)
 
 .PHONY: everything
-everything: create-kind-cluster build-app build-test-runner deploy-app run-conformance-tests
+everything: create-kind-cluster build-app build-test-runner deploy-app deploy-gateway-class deploy-secret run-conformance-tests
 
 cleanup:
 	kind delete cluster --name conformance

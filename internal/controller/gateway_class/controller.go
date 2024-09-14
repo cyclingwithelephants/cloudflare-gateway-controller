@@ -87,6 +87,7 @@ func (r *Reconciler) accept(ctx context.Context, gatewayClass *gatewayv1.Gateway
 			Reason:             "Accepted",
 			Message:            "this is a test acceptance",
 		}
+		gatewayClass.ObjectMeta.Generation = gatewayClass.ObjectMeta.Generation + 1
 	}
 
 	if err := r.Status().Update(ctx, gatewayClass); err != nil {

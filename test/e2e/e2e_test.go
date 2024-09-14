@@ -7,8 +7,6 @@ import (
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
-
-	"github.com/cyclingwithelephants/cloudflare-gateway-controller/test/utils"
 )
 
 const namespace = "cloudflare-gateway-controller-system"
@@ -16,26 +14,26 @@ const namespace = "cloudflare-gateway-controller-system"
 var _ = Describe("controller", Ordered, func() {
 	BeforeAll(func() {
 		By("installing prometheus operator")
-		Expect(utils.InstallPrometheusOperator()).To(Succeed())
+		Expect(InstallPrometheusOperator()).To(Succeed())
 
 		By("installing cert-manager")
-		Expect(utils.InstallCertManager()).To(Succeed())
+		Expect(InstallCertManager()).To(Succeed())
 
 		By("creating manager namespace")
 		cmd := exec.Command("kubectl", "create", "ns", namespace)
-		_, _ = utils.Run(cmd)
+		_, _ = Run(cmd)
 	})
 
 	AfterAll(func() {
 		By("uninstalling prometheus manager bundle")
-		utils.UninstallPrometheusOperator()
+		UninstallPrometheusOperator()
 
 		By("uninstalling cert-manager bundle")
-		utils.UninstallCertManager()
+		UninstallCertManager()
 
 		By("removing manager namespace")
 		cmd := exec.Command("kubectl", "delete", "ns", namespace)
-		_, _ = utils.Run(cmd)
+		_, _ = Run(cmd)
 	})
 
 	Context("Operator", func() {
@@ -48,21 +46,21 @@ var _ = Describe("controller", Ordered, func() {
 
 			By("building the manager(Operator) image")
 			cmd := exec.Command("make", "docker-build", fmt.Sprintf("IMG=%s", projectimage))
-			_, err = utils.Run(cmd)
+			_, err = Run(cmd)
 			ExpectWithOffset(1, err).NotTo(HaveOccurred())
 
 			By("loading the manager(Operator) image on Kind")
-			err = utils.LoadImageToKindClusterWithName(projectimage)
+			err = LoadImageToKindClusterWithName(projectimage)
 			ExpectWithOffset(1, err).NotTo(HaveOccurred())
 
 			By("installing CRDs")
 			cmd = exec.Command("make", "install")
-			_, err = utils.Run(cmd)
+			_, err = Run(cmd)
 			ExpectWithOffset(1, err).NotTo(HaveOccurred())
 
 			By("deploying the controller-manager")
 			cmd = exec.Command("make", "deploy", fmt.Sprintf("IMG=%s", projectimage))
-			_, err = utils.Run(cmd)
+			_, err = Run(cmd)
 			ExpectWithOffset(1, err).NotTo(HaveOccurred())
 
 			By("validating that the controller-manager pod is running as expected")
@@ -78,9 +76,9 @@ var _ = Describe("controller", Ordered, func() {
 					"-n", namespace,
 				)
 
-				podOutput, err := utils.Run(cmd)
+				podOutput, err := Run(cmd)
 				ExpectWithOffset(2, err).NotTo(HaveOccurred())
-				podNames := utils.GetNonEmptyLines(string(podOutput))
+				podNames := GetNonEmptyLines(string(podOutput))
 				if len(podNames) != 1 {
 					return fmt.Errorf("expect 1 controller pods running, but got %d", len(podNames))
 				}
@@ -92,7 +90,7 @@ var _ = Describe("controller", Ordered, func() {
 					"pods", controllerPodName, "-o", "jsonpath={.status.phase}",
 					"-n", namespace,
 				)
-				status, err := utils.Run(cmd)
+				status, err := Run(cmd)
 				ExpectWithOffset(2, err).NotTo(HaveOccurred())
 				if string(status) != "Running" {
 					return fmt.Errorf("controller pod in %s status", status)
