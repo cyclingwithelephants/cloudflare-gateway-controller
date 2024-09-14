@@ -122,3 +122,40 @@ jobs:
             else
               echo "no diff detected."
             fi
+
+  conformance:
+    runs-on: ubuntu-latest
+    env:
+      WORKING_DIRECTORY: test/conformance
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: set up docker buildx
+        uses: docker/setup-buildx-action@16c0bc4a6e6ada2cfd8afd41d22d95379cf7c32a # v2.8.0
+
+      - name: setup kind cluster
+        uses: helm/kind-action@v1.10.0
+        with:
+          cluster_name: conformance
+
+      - name: build app
+        working-directory: ${{ env.WORKING_DIRECTORY}}
+        run: |
+          make build-app
+
+      - name: build test runner
+        working-directory: ${{ env.WORKING_DIRECTORY}}
+        run: |
+          make build-test-runner
+
+      - name: deploy app
+        working-directory: ${{ env.WORKING_DIRECTORY}}
+        run: |
+          make deploy-app
+
+      - name: Run conformance tests
+        working-directory: ${{ env.WORKING_DIRECTORY}}
+        continue-on-error: true
+        run: |
+          make run-conformance-tests

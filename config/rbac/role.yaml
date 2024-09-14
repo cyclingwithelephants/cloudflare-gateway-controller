@@ -5,7 +5,41 @@ metadata:
   name: manager-role
 rules:
 - apiGroups:
-  - gateway.networking.k8s.io.adamland.xyz
+  - ""
+  resources:
+  - configmaps
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - ""
+  resources:
+  - secrets
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - watch
+- apiGroups:
+  - apps
+  resources:
+  - deployments
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - gateway.networking.k8s.io
   resources:
   - gatewayclasses
   - gateways
@@ -19,7 +53,7 @@ rules:
   - update
   - watch
 - apiGroups:
-  - gateway.networking.k8s.io.adamland.xyz
+  - gateway.networking.k8s.io
   resources:
   - gatewayclasses/finalizers
   - gateways/finalizers
@@ -27,7 +61,7 @@ rules:
   verbs:
   - update
 - apiGroups:
-  - gateway.networking.k8s.io.adamland.xyz
+  - gateway.networking.k8s.io
   resources:
   - gatewayclasses/status
   - gateways/status

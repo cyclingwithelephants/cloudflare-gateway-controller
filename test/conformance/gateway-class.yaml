@@ -1,0 +1,11 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: GatewayClass
+metadata:
+  name: conformance-test
+spec:
+  controllerName: "adamland.xyz/cloudflare-gateway-controller"
+  parametersRef:
+    group: ""
+    kind: Secret
+    name: conformance-test-gateway-config
+    namespace: default
