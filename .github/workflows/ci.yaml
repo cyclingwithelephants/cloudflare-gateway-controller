@@ -123,10 +123,10 @@ jobs:
               echo "no diff detected."
             fi
 
-  conformance-tests:
-    name: Gateway Conformance Tests
-    runs-on: ubuntu-22.04
-    if: ${{ github.ref_type != 'tag' }}
+  conformance:
+    runs-on: ubuntu-latest
+    env:
+      WORKING_DIRECTORY: ./conformance
     steps:
       - name: checkout
         uses: actions/checkout@v4
@@ -140,18 +140,22 @@ jobs:
           cluster_name: conformance
 
       - name: build app
+        working-dir: ${{ env.WORKING_DIRECTORY}}
         run: |
           make build-app
 
       - name: build test runner
+        working-dir: ${{ env.WORKING_DIRECTORY}}
         run: |
           make build-test-runner
 
       - name: deploy app
+        working-dir: ${{ env.WORKING_DIRECTORY}}
         run: |
           make deploy-app
 
       - name: Run conformance tests
+        working-dir: ${{ env.WORKING_DIRECTORY}}
+        continue-on-error: true
         run: |
           make run-conformance-tests
-        continue-on-error: true
