@@ -1,4 +1,27 @@
-## 0.104.0 (Unreleased)
+## 0.106.0 (Unreleased)
+
+## 0.105.0 (September 25th, 2024)
+
+ENHANCEMENTS:
+
+* device_posture_rule: add score field for custom_s2s posture rule ([#3031](https://github.com/cloudflare/cloudflare-go/issues/3031))
+* infrastructure_targets: initialize CRUD endpoints for infrastructure access endpoints ([#3184](https://github.com/cloudflare/cloudflare-go/issues/3184))
+* load_balancing: add account load balancer support ([#3027](https://github.com/cloudflare/cloudflare-go/issues/3027))
+
+## 0.104.0 (September 11th, 2024)
+
+BREAKING CHANGES:
+
+* dns: removed deprecated `ZoneID` and `ZoneName` fields ([#2986](https://github.com/cloudflare/cloudflare-go/issues/2986))
+
+ENHANCEMENTS:
+
+* bot_management: add ai_bots_protection to public API ([#2974](https://github.com/cloudflare/cloudflare-go/issues/2974))
+
+DEPENDENCIES:
+
+* deps: bumps golang.org/x/net from 0.28.0 to 0.29.0 ([#3030](https://github.com/cloudflare/cloudflare-go/issues/3030))
+* deps: bumps golang.org/x/time from 0.5.0 to 0.6.0 ([#2816](https://github.com/cloudflare/cloudflare-go/issues/2816))
 
 ## 0.103.0 (August 28th, 2024)
 
