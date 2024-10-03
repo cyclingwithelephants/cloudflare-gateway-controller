@@ -16,7 +16,7 @@ github.com/cenkalti/backoff/v4
 # github.com/cespare/xxhash/v2 v2.3.0
 ## explicit; go 1.11
 github.com/cespare/xxhash/v2
-# github.com/cloudflare/cloudflare-go v0.105.0
+# github.com/cloudflare/cloudflare-go v0.106.0
 ## explicit; go 1.19
 github.com/cloudflare/cloudflare-go
 # github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc
