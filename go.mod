@@ -5,7 +5,7 @@ go 1.23.1
 require (
 	github.com/cloudflare/cloudflare-go v0.108.0
 	github.com/go-logr/logr v1.4.2
-	github.com/onsi/ginkgo/v2 v2.21.0
+	github.com/onsi/ginkgo/v2 v2.22.0
 	github.com/onsi/gomega v1.35.1
 	github.com/pkg/errors v0.9.1
 	k8s.io/api v0.31.2
