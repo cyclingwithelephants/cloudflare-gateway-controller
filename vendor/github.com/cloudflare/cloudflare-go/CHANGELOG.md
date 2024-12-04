@@ -1,4 +1,50 @@
-## 0.109.0 (Unreleased)
+## 0.112.0 (Unreleased)
+
+## 0.111.0 (December 4th, 2024)
+
+BREAKING CHANGES:
+
+* access: Remove the deprecated `SelfHostedDomains` field from Access applications. Use `Destinations` instead. ([#3667](https://github.com/cloudflare/cloudflare-go/issues/3667))
+
+ENHANCEMENTS:
+
+* Adds allow_email_alias connection rule boolean to access infra policy payload ([#3675](https://github.com/cloudflare/cloudflare-go/issues/3675))
+* access: Add `DomainType` field to Access applications. ([#3667](https://github.com/cloudflare/cloudflare-go/issues/3667))
+* leaked_credential_check: add new methods to interact with leaked credential check cloudfare API ([#3634](https://github.com/cloudflare/cloudflare-go/issues/3634))
+
+BUG FIXES:
+
+* authenticated_origin_pulls_per_hostname: fixes the struct to allow null (nil) values on the `Enabled` property ([#3680](https://github.com/cloudflare/cloudflare-go/issues/3680))
+* snippets_rules: fix upsert request type ([#3669](https://github.com/cloudflare/cloudflare-go/issues/3669))
+
+DEPENDENCIES:
+
+* deps: bumps github.com/stretchr/testify from 1.9.0 to 1.10.0 ([#3672](https://github.com/cloudflare/cloudflare-go/issues/3672))
+
+## 0.110.0 (November 20th, 2024)
+
+ENHANCEMENTS:
+
+* access_identity_provider: Adds identity_update_behavior to SCIM config. ([#3618](https://github.com/cloudflare/cloudflare-go/issues/3618))
+* turnstile: fix UpdateTurnstileWidgetParams (support setting values to `false`) ([#3594](https://github.com/cloudflare/cloudflare-go/issues/3594))
+
+BUG FIXES:
+
+* snippets: fix response type for `UpdateZoneSnippet` ([#3596](https://github.com/cloudflare/cloudflare-go/issues/3596))
+
+DEPENDENCIES:
+
+* deps: bumps golang.org/x/net from 0.30.0 to 0.31.0 ([#3588](https://github.com/cloudflare/cloudflare-go/issues/3588))
+* deps: bumps golang.org/x/time from 0.7.0 to 0.8.0 ([#3584](https://github.com/cloudflare/cloudflare-go/issues/3584))
+* deps: bumps goreleaser/goreleaser-action from 6.0.0 to 6.1.0 ([#3578](https://github.com/cloudflare/cloudflare-go/issues/3578))
+
+## 0.109.0 (November 6th, 2024)
+
+ENHANCEMENTS:
+
+* access_application: add support for controlling schema strictness in Access SCIM application provisioning mappings ([#3510](https://github.com/cloudflare/cloudflare-go/issues/3510))
+* regional_hostname: add support for `routing` attribute ([#3560](https://github.com/cloudflare/cloudflare-go/issues/3560))
+* snippets: add missing delete and get a single snippet methods ([#3529](https://github.com/cloudflare/cloudflare-go/issues/3529))
 
 ## 0.108.0 (October 23rd, 2024)
 
