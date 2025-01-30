@@ -13,6 +13,10 @@ type SnippetsRulesResponse struct {
 	Result []SnippetRule `json:"result"`
 }
 
+type SnippetRulesRequest struct {
+	Rules []SnippetRule `json:"rules"`
+}
+
 type SnippetRule struct {
 	ID          string `json:"id"`
 	Enabled     *bool  `json:"enabled,omitempty"`
@@ -26,7 +30,7 @@ func (api *API) ListZoneSnippetsRules(ctx context.Context, rc *ResourceContainer
 		return nil, ErrMissingZoneID
 	}
 
-	uri := buildURI(fmt.Sprintf("/zones/%s/snippets/rules", rc.Identifier), nil)
+	uri := buildURI(fmt.Sprintf("/zones/%s/snippets/snippet_rules", rc.Identifier), nil)
 	res, err := api.makeRequestContext(ctx, http.MethodGet, uri, nil)
 	if err != nil {
 		return nil, err
@@ -45,9 +49,11 @@ func (api *API) UpdateZoneSnippetsRules(ctx context.Context, rc *ResourceContain
 		return nil, ErrMissingZoneID
 	}
 
-	uri := fmt.Sprintf("/zones/%s/snippets/rules", rc.Identifier)
+	uri := fmt.Sprintf("/zones/%s/snippets/snippet_rules", rc.Identifier)
 
-	payload, err := json.Marshal(params)
+	payload, err := json.Marshal(SnippetRulesRequest{
+		Rules: params,
+	})
 	if err != nil {
 		return nil, err
 	}
