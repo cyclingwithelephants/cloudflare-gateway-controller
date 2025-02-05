@@ -54,7 +54,7 @@ jobs:
         run: make test
 
       - name: Golangci-lint
-        uses: golangci/golangci-lint-action@v6.2.0
+        uses: golangci/golangci-lint-action@v6.3.0
 
 
   container:
