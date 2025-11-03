@@ -46,7 +46,7 @@ jobs:
           echo "GO_VERSION=$(awk 'NR==3 {print $2}' go.mod)" >> $GITHUB_ENV
 
       - name: setup go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
           go-version: ${{ env.GO_VERSION }}
 
